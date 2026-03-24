@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard · Laboratorios</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark">
+
+    <div class="container d-flex align-items-center justify-content-center min-vh-100">
+        <div class="row g-4 w-100">
+            
+            <!-- Título del dashboard -->
+            <div class="col-12 text-center mb-4">
+                <h1 class="display-5 fw-bold text-white">Panel de Laboratorios</h1>
+                <p class="text-secondary">Seleccione un laboratorio para acceder</p>
+                <hr class="w-25 mx-auto border-secondary">
+            </div>
+            
+            <!-- Botón Laboratorio A -->
+            <div class="col-md-3 col-sm-6">
+                <a href="laba.html" class="text-decoration-none">
+                    <div class="card bg-secondary bg-opacity-25 border-0 shadow-lg hover-card">
+                        <div class="card-body text-center p-4">
+                            <div class="display-1 fw-bold text-white mb-3">A</div>
+                            <h3 class="h4 fw-semibold text-white mb-2">Laboratorio A</h3>
+                            <p class="text-light small mb-0">Acceder al contenido</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Botón Laboratorio B -->
+            <div class="col-md-3 col-sm-6">
+                <a href="labb.html" class="text-decoration-none">
+                    <div class="card bg-secondary bg-opacity-25 border-0 shadow-lg hover-card">
+                        <div class="card-body text-center p-4">
+                            <div class="display-1 fw-bold text-white mb-3">B</div>
+                            <h3 class="h4 fw-semibold text-white mb-2">Laboratorio B</h3>
+                            <p class="text-light small mb-0">Acceder al contenido</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Botón Laboratorio C -->
+            <div class="col-md-3 col-sm-6">
+                <a href="labc.html" class="text-decoration-none">
+                    <div class="card bg-secondary bg-opacity-25 border-0 shadow-lg hover-card">
+                        <div class="card-body text-center p-4">
+                            <div class="display-1 fw-bold text-white mb-3">C</div>
+                            <h3 class="h4 fw-semibold text-white mb-2">Laboratorio C</h3>
+                            <p class="text-light small mb-0">Acceder al contenido</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Botón Laboratorio D -->
+            <div class="col-md-3 col-sm-6">
+                <a href="labd.html" class="text-decoration-none">
+                    <div class="card bg-secondary bg-opacity-25 border-0 shadow-lg hover-card">
+                        <div class="card-body text-center p-4">
+                            <div class="display-1 fw-bold text-white mb-3">D</div>
+                            <h3 class="h4 fw-semibold text-white mb-2">Laboratorio D</h3>
+                            <p class="text-light small mb-0">Acceder al contenido</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- Estilo adicional solo para hover (sin colores no autorizados) -->
+    <style>
+        .hover-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+        .hover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 1rem 2rem rgba(0,0,0,0.3) !important;
+            background-color: rgba(108, 117, 125, 0.4) !important;
+        }
+        /* No se utilizan colores morados, rosados ni "maricas" */
+        .bg-secondary {
+            background-color: #6c757d !important;
+        }
+        .text-white {
+            color: #ffffff !important;
+        }
+        .text-secondary {
+            color: #6c757d !important;
+        }
+        .bg-dark {
+            background-color: #212529 !important;
+        }
+    </style>
+
+</body>
+</html>
