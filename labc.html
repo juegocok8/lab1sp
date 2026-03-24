@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Cálculo de Póliza de Seguro de Auto · Planteamiento React</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-dark">
+
+    <div class="container py-5">
+        
+        <!-- Encabezado Principal -->
+        <div class="bg-white rounded-4 shadow-lg overflow-hidden mb-4">
+            <div class="bg-primary bg-opacity-10 p-4 border-bottom">
+                <div class="row align-items-center">
+                    <div class="col-md-9">
+                        <h1 class="display-6 fw-bold text-primary mb-2">🏢 Sistema de Cálculo de Póliza de Seguro de Auto</h1>
+                        <p class="text-secondary mb-0">Desarrollo con React · Almacenamiento en memoria · Sin base de datos</p>
+                    </div>
+                    <div class="col-md-3 text-md-end">
+                        <span class="badge bg-primary fs-6 px-3 py-2">Java Swing → React</span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4">
+                <p class="mb-0">Una compañía aseguradora desea desarrollar un sistema que permita calcular automáticamente el costo anual de una póliza de seguro de automóvil, considerando diferentes factores de riesgo del conductor y del vehículo. El sistema se desarrollará con <strong>React</strong> utilizando componentes funcionales, hooks y almacenamiento en memoria mediante arreglos.</p>
+            </div>
+        </div>
+
+        <!-- Objetivo del Sistema + Prima Base -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="bg-white rounded-4 shadow-sm p-4 h-100">
+                    <h2 class="h4 fw-bold text-primary mb-3"><i class="fas fa-bullseye me-2"></i>Objetivo del Sistema</h2>
+                    <ol class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Calcular el valor anual de la póliza</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Mostrar el detalle de los recargos y descuentos aplicados</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Guardar cada cotización en memoria</li>
+                        <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Generar estadísticas generales de las pólizas registradas</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="bg-white rounded-4 shadow-sm p-4 h-100">
+                    <h2 class="h4 fw-bold text-primary mb-3"><i class="fas fa-calculator me-2"></i>Cálculo de Prima Base</h2>
+                    <p class="mb-2"><span class="fw-bold">Prima Base = 5% del valor comercial del vehículo</span></p>
+                    <div class="bg-light rounded-3 p-3">
+                        <p class="mb-1 text-secondary">Ejemplo:</p>
+                        <p class="mb-0 fw-bold">Vehículo valorado en $12,000 → 12,000 × 0.05 = <span class="text-success">$600</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Factores que Modifican la Póliza -->
+        <h2 class="h4 fw-bold text-white mb-3"><i class="fas fa-chart-line me-2"></i>Factores que Modifican la Póliza</h2>
+        <div class="row g-4 mb-4">
+            <div class="col-md-4 col-lg-3">
+                <div class="bg-white rounded-4 shadow-sm p-3 h-100">
+                    <span class="badge bg-primary mb-2">A</span>
+                    <h3 class="h6 fw-bold">Edad del Conductor</h3>
+                    <ul class="list-unstyled small">
+                        <li>Menor de 25 años → <span class="text-danger">+20%</span></li>
+                        <li>Entre 25 y 60 años → 0%</li>
+                        <li>Mayor de 60 años → <span class="text-danger">+15%</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-3">
+                <div class="bg-white rounded-4 shadow-sm p-3 h-100">
+                    <span class="badge bg-primary mb-2">B</span>
+                    <h3 class="h6 fw-bold">Tipo de Vehículo</h3>
+                    <ul class="list-unstyled small">
+                        <li>Sedán → 0%</li>
+                        <li>SUV → <span class="text-danger">+10%</span></li>
+                        <li>Pickup → <span class="text-danger">+8%</span></li>
+                        <li>Deportivo → <span class="text-danger">+25%</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-3">
+                <div class="bg-white rounded-4 shadow-sm p-3 h-100">
+                    <span class="badge bg-primary mb-2">C</span>
+                    <h3 class="h6 fw-bold">Historial de Accidentes</h3>
+                    <ul class="list-unstyled small">
+                        <li>0 accidentes → <span class="text-success">-10%</span></li>
+                        <li>1 accidente → <span class="text-danger">+15%</span></li>
+                        <li>2 accidentes → <span class="text-danger">+30%</span></li>
+                        <li>3 o más accidentes → <span class="text-danger">+50%</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-3">
+                <div class="bg-white rounded-4 shadow-sm p-3 h-100">
+                    <span class="badge bg-primary mb-2">D</span>
+                    <h3 class="h6 fw-bold">Uso del Vehículo</h3>
+                    <ul class="list-unstyled small">
+                        <li>Personal → 0%</li>
+                        <li>Comercial → <span class="text-danger">+20%</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-3">
+                <div class="bg-white rounded-4 shadow-sm p-3 h-100">
+                    <span class="badge bg-primary mb-2">E</span>
+                    <h3 class="h6 fw-bold">Zona de Circulación</h3>
+                    <ul class="list-unstyled small">
+                        <li>Zona normal → 0%</li>
+                        <li>Zona de alto riesgo → <span class="text-danger">+15%</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-3">
+                <div class="bg-white rounded-4 shadow-sm p-3 h-100">
+                    <span class="badge bg-primary mb-2">F</span>
+                    <h3 class="h6 fw-bold">Promoción Aleatoria</h3>
+                    <p class="small mb-1">Generar número aleatorio del 1 al 5</p>
+                    <p class="small mb-0">Si el número es <span class="fw-bold">3</span> → aplicar descuento especial del <span class="text-success">-12%</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resultado Final -->
+        <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+            <h2 class="h4 fw-bold text-primary mb-3"><i class="fas fa-file-invoice-dollar me-2"></i>Resultado Final</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-chart-line text-secondary me-2"></i> Mostrar prima base</li>
+                        <li class="mb-2"><i class="fas fa-plus-circle text-danger me-2"></i> Mostrar total de recargos</li>
+                        <li class="mb-2"><i class="fas fa-minus-circle text-success me-2"></i> Mostrar total de descuentos</li>
+                        <li class="mb-2"><i class="fas fa-dollar-sign text-primary me-2"></i> Mostrar prima anual final</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-calendar-week me-2"></i> Calcular cuota mensual (Prima anual / 12)</li>
+                        <li class="mb-2"><i class="fas fa-shield-alt me-2"></i> Clasificar riesgo: Bajo, Medio, Alto o Crítico</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clasificación de Riesgo -->
+        <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+            <h2 class="h4 fw-bold text-primary mb-3"><i class="fas fa-chart-pie me-2"></i>Clasificación de Riesgo</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr><th>Prima Anual Final</th><th>Clasificación</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Menor a $500</td><td><span class="badge bg-success">Bajo</span></td></tr>
+                        <tr><td>$500 - $900</td><td><span class="badge bg-info">Medio</span></td></tr>
+                        <tr><td>$901 - $1500</td><td><span class="badge bg-warning">Alto</span></td></tr>
+                        <tr><td>Mayor a $1500</td><td><span class="badge bg-danger">Crítico</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="bg-light rounded-3 p-3 mt-2">
+                <p class="mb-0 small fw-bold">Ejemplo práctico:</p>
+                <p class="small mb-0">Valor vehículo: $10,000 → Prima base: $500 | Recargos: $200 | Descuentos: $50</p>
+                <p class="small mb-0">Prima final: $650 → <span class="fw-bold">Rango $500–$900 → Riesgo = Medio</span></p>
+            </div>
+        </div>
+
+        <!-- Reporte General -->
+        <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+            <h2 class="h4 fw-bold text-primary mb-3"><i class="fas fa-chart-simple me-2"></i>Reporte General</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-transparent d-flex justify-content-between">1. Total de pólizas registradas<span class="badge bg-secondary">contador</span></li>
+                        <li class="list-group-item bg-transparent d-flex justify-content-between">2. Promedio de primas<span class="badge bg-secondary">media</span></li>
+                        <li class="list-group-item bg-transparent d-flex justify-content-between">3. Tipo de vehículo más asegurado<span class="badge bg-secondary">moda</span></li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item bg-transparent d-flex justify-content-between">4. Cliente con la póliza más alta<span class="badge bg-secondary">máx</span></li>
+                        <li class="list-group-item bg-transparent d-flex justify-content-between">5. Conductores con descuento por buen historial (0 accidentes)<span class="badge bg-secondary">contador</span></li>
+                        <li class="list-group-item bg-transparent d-flex justify-content-between">6. Clientes con recargo por alto riesgo (riesgo Alto o Crítico)<span class="badge bg-secondary">contador</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Validaciones Obligatorias -->
+        <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+            <h2 class="h4 fw-bold text-primary mb-3"><i class="fas fa-shield me-2"></i>Validaciones Obligatorias</h2>
+            <ul class="list-unstyled">
+                <li class="mb-2"><i class="fas fa-ban text-danger me-2"></i> No permitir edad menor de 18 años</li>
+                <li class="mb-2"><i class="fas fa-ban text-danger me-2"></i> No permitir valor del vehículo menor o igual a cero</li>
+                <li class="mb-2"><i class="fas fa-ban text-danger me-2"></i> No permitir año del vehículo menor a 1990</li>
+                <li class="mb-2"><i class="fas fa-ban text-danger me-2"></i> No permitir nombre vacío</li>
+            </ul>
+        </div>
+
+        <!-- Nota de Desarrollo React -->
+        <div class="alert alert-dark border-0 shadow-sm d-flex align-items-center mb-4" role="alert">
+            <i class="fab fa-react fs-2 me-3 text-primary"></i>
+            <div>
+                <strong>⚛️ Desarrollo con React</strong><br>
+                Implementación con componentes funcionales, <code>useState</code> para manejo de estado, <code>useEffect</code> para efectos secundarios.<br>
+                Almacenamiento en memoria mediante arreglos. No se utiliza base de datos. Tabla equivalente a JTable usando componentes de Bootstrap.
+            </div>
+        </div>
+
+        <!-- TABLA DE EVALUACIÓN (RÚBRICA) -->
+        <div class="bg-white rounded-4 shadow-sm p-4 mb-4">
+            <h2 class="h4 fw-bold text-primary mb-3"><i class="fas fa-clipboard-list me-2"></i>Rúbrica de Evaluación Funcional</h2>
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-evaluacion">
+                    <thead class="table-dark">
+                        <tr>
+                            <th class="text-center">No.</th>
+                            <th>Criterio de Evaluación / Funcionalidad a Probar</th>
+                            <th class="text-center">Peso</th>
+                            <th class="text-center">Ganado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="text-center">1</td><td>Componente principal App.jsx implementado correctamente</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">2</td><td>Formulario de captura con useState (componente controlado)</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">3</td><td>Validaciones obligatorias (edad, valor vehículo, año, nombre)</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">4</td><td>Cálculo correcto de prima base (5% del valor)</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">5</td><td>Aplicación correcta de recargos por factores (edad, tipo, accidentes, uso, zona)</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">6</td><td>Aplicación correcta de descuentos (historial 0 accidentes, promoción aleatoria)</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">7</td><td>Cálculo de prima anual final y cuota mensual</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">8</td><td>Clasificación correcta de riesgo (Bajo, Medio, Alto, Crítico)</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">9</td><td>Almacenamiento de cotizaciones en memoria (useState + arreglo)</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">10</td><td>Visualización en tabla (equivalente a JTable) con Bootstrap</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">11</td><td>Reporte general con estadísticas (total, promedio, tipo más asegurado)</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">12</td><td>Identificación de cliente con póliza más alta</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">13</td><td>Conteo de conductores con descuento por buen historial (0 accidentes)</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">14</td><td>Conteo de clientes con recargo por alto riesgo (riesgo Alto o Crítico)</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">15</td><td>Promoción aleatoria (número 1-5, si es 3 descuento -12%)</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">16</td><td>Botón de reinicio que limpia arreglos, tabla y estadísticas</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">17</td><td>Actualización automática de estadísticas con useEffect</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr><td class="text-center">18</td><td>Diseño responsivo con Bootstrap (adaptación a móviles)</td><td class="text-center">1</td><td class="text-center">—</td></tr>
+                        <tr class="table-primary fw-bold"><td colspan="2" class="text-end">Total</td><td class="text-center">18</td><td class="text-center">—</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="alert alert-secondary mt-3 mb-0">
+                <i class="fas fa-info-circle me-2"></i>
+                <strong>Nota:</strong> Cada criterio tiene un peso de 1 punto. Total máximo: 18 puntos. No se permite uso de base de datos.
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center text-secondary small mt-4">
+            <p class="mb-0"><i class="fab fa-react text-primary me-1"></i> Sistema de Cálculo de Póliza de Seguro de Auto · React + Bootstrap</p>
+            <p class="mb-0">Desarrollo de Aplicaciones Web · Solo planteamiento · No incluye código funcional</p>
+        </footer>
+    </div>
+
+</body>
+</html>
