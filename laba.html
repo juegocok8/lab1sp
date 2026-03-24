@@ -44,6 +44,33 @@
                 ocupacion: { min: 50, max: 100, umbralAltaDemanda: 85, recargo: 12 }
             };
 
+            // Criterios de evaluación
+            const criteriosEvaluacion = [
+                { id: 1, criterio: "Interfaz gráfica implementada correctamente con React", peso: 1 },
+                { id: 2, criterio: "Registro correcto en estado (useState) con arreglos", peso: 1 },
+                { id: 3, criterio: "Control de límite de pasajeros (máximo 120)", peso: 1 },
+                { id: 4, criterio: "Validaciones obligatorias (distancia, edad, nombre, equipaje)", peso: 1 },
+                { id: 5, criterio: "Cálculo correcto del precio base", peso: 1 },
+                { id: 6, criterio: "Aplicación correcta de factores (clase, temporada, edad)", peso: 1 },
+                { id: 7, criterio: "Aplicación correcta de equipaje extra y tipo de compra", peso: 1 },
+                { id: 8, criterio: "Simulación de ocupación del tren (50%-100%) y recargo por alta demanda", peso: 1 },
+                { id: 9, criterio: "Cálculo correcto del precio final", peso: 1 },
+                { id: 10, criterio: "Mostrar detalle del cálculo (recargos, descuentos)", peso: 1 },
+                { id: 11, criterio: "Visualización de ventas en tabla (equivalente a JTable)", peso: 1 },
+                { id: 12, criterio: "Total vendido del día (estadística)", peso: 1 },
+                { id: 13, criterio: "Promedio de venta por pasajero (estadística)", peso: 1 },
+                { id: 14, criterio: "Clase más utilizada (estadística)", peso: 1 },
+                { id: 15, criterio: "Temporada con mayor ingreso acumulado (estadística)", peso: 1 },
+                { id: 16, criterio: "Cantidad de pasajeros con descuento por edad (estadística)", peso: 1 },
+                { id: 17, criterio: "Cantidad de pasajeros con recargo por alta demanda (estadística)", peso: 1 },
+                { id: 18, criterio: "Identificación del pasajero que pagó el boleto más caro (estadística)", peso: 1 },
+                { id: 19, criterio: "Clasificación del pasajero (Premium, Regular, Económico)", peso: 1 },
+                { id: 20, criterio: "Manejo de estado con useState y efectos con useEffect", peso: 1 },
+                { id: 21, criterio: "Componentes funcionales y JSX correctamente implementados", peso: 1 }
+            ];
+
+            const totalPuntos = criteriosEvaluacion.reduce((sum, item) => sum + item.peso, 0);
+
             return (
                 <main className="container py-4">
                     {/* ENCABEZADO: problema a resolver */}
@@ -234,6 +261,43 @@
                         </div>
                     </div>
 
+                    {/* TABLA DE CRITERIOS DE EVALUACIÓN */}
+                    <div className="bg-white p-4 rounded-3 shadow-sm mb-4">
+                        <h2 className="h4 text-primary fw-semibold border-bottom pb-2 mb-3">📋 Tabla de Criterios de Evaluación</h2>
+                        <div className="table-responsive">
+                            <table className="table table-bordered table-hover">
+                                <thead className="table-dark">
+                                    <tr>
+                                        <th className="text-center">No.</th>
+                                        <th>Criterio de Evaluación / Funcionalidad a Probar</th>
+                                        <th className="text-center">Peso</th>
+                                        <th className="text-center">Ganado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {criteriosEvaluacion.map((item) => (
+                                        <tr key={item.id}>
+                                            <td className="text-center">{item.id}</td>
+                                            <td>{item.criterio}</td>
+                                            <td className="text-center">{item.peso}</td>
+                                            <td className="text-center">—</td>
+                                        </tr>
+                                    ))}
+                                    <tr className="table-primary fw-bold">
+                                        <td colSpan="2" className="text-end">Total</td>
+                                        <td className="text-center">{totalPuntos}</td>
+                                        <td className="text-center">—</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="alert alert-secondary mt-3 mb-0">
+                            <span className="me-2">📌</span>
+                            <strong>Nota:</strong> Cada criterio tiene un peso de 1 punto. Total máximo: {totalPuntos} puntos. 
+                            No se permite el uso de base de datos. Desarrollo con React, useState y useEffect.
+                        </div>
+                    </div>
+
                     {/* NOTA DE DESARROLLO - Actualizada para React */}
                     <div className="alert alert-info border-0 shadow-sm d-flex align-items-center" role="alert">
                         <span className="me-2 fs-4">⚛️</span>
@@ -247,6 +311,7 @@
                     {/* Footer */}
                     <footer className="text-muted text-center small mt-4">
                         <p className="mb-0">Sistema de Tarifas Tren — Implementación en React con Bootstrap 5</p>
+                        <p className="mb-0">Incluye tabla de criterios de evaluación</p>
                     </footer>
                 </main>
             );
