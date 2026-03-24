@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Tarifas Tren · React + Bootstrap</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- React y ReactDOM desde CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <!-- Babel para JSX -->
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-light">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // Componente principal del sistema
+        const SistemaTarifasTren = () => {
+            // Datos estáticos para los factores (se mantienen igual que en el problema original)
+            const factores = {
+                clases: [
+                    { nombre: "Económica", porcentaje: 0 },
+                    { nombre: "Ejecutiva", porcentaje: 35 },
+                    { nombre: "Primera Clase", porcentaje: 70 }
+                ],
+                temporadas: [
+                    { nombre: "Baja", porcentaje: -15 },
+                    { nombre: "Media", porcentaje: 0 },
+                    { nombre: "Alta", porcentaje: 25 }
+                ],
+                edades: [
+                    { rango: "Menor de 12 años", porcentaje: -50 },
+                    { rango: "Entre 12 y 65 años", porcentaje: 0 },
+                    { rango: "Mayor de 65 años", porcentaje: -30 }
+                ],
+                equipajeExtra: { costo: 6 },
+                tipoCompra: [
+                    { nombre: "Anticipada", porcentaje: -5 },
+                    { nombre: "Mismo día", porcentaje: 20 }
+                ],
+                ocupacion: { min: 50, max: 100, umbralAltaDemanda: 85, recargo: 12 }
+            };
+
+            return (
+                <main className="container py-4">
+                    {/* ENCABEZADO: problema a resolver */}
+                    <div className="bg-white p-4 rounded-3 shadow-sm mb-4">
+                        <h1 className="display-6 text-primary mb-3">🚆 Sistema de Cálculo de Tarifas para Viajes en Tren</h1>
+                        <p className="lead mb-0">
+                            Una empresa ferroviaria nacional desea desarrollar un sistema que le permita calcular automáticamente 
+                            el precio final de los boletos de tren, considerando diferentes factores que influyen en la tarifa.
+                        </p>
+                    </div>
+
+                    {/* OBJETIVO + PRECIO BASE */}
+                    <div className="row g-4 mb-4">
+                        <div className="col-md-6">
+                            <div className="bg-white p-4 rounded-3 shadow-sm h-100">
+                                <h2 className="h4 text-primary fw-semibold border-bottom pb-2 mb-3">🎯 Objetivo del sistema</h2>
+                                <ol className="list-group list-group-numbered list-group-flush bg-transparent">
+                                    <li className="list-group-item bg-transparent border-0 ps-0">Calcular el precio final de un boleto.</li>
+                                    <li className="list-group-item bg-transparent border-0 ps-0">Mostrar el detalle del cálculo.</li>
+                                    <li className="list-group-item bg-transparent border-0 ps-0">Almacenar cada venta en memoria.</li>
+                                    <li className="list-group-item bg-transparent border-0 ps-0">Generar estadísticas generales del día.</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="bg-white p-4 rounded-3 shadow-sm h-100">
+                                <h2 className="h4 text-primary fw-semibold border-bottom pb-2 mb-3">💰 Precio base por distancia</h2>
+                                <p className="mb-2"><span className="fw-medium">Precio Base = Distancia (km) × $0.30</span></p>
+                                <div className="bg-light p-3 rounded-3">
+                                    <p className="mb-1 text-secondary">Ejemplo:</p>
+                                    <p className="mb-0 fw-bold">150 km × 0.30 = <span className="text-success">$45.00</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* FACTORES QUE MODIFICAN LA TARIFA */}
+                    <h2 className="h4 text-primary fw-semibold mb-3">📊 Factores que modifican la tarifa</h2>
+                    <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mb-5">
+                        {/* Tipo de Clase */}
+                        <div className="col">
+                            <div className="card h-100 border-0 shadow-sm">
+                                <div className="card-body">
+                                    <span className="badge bg-primary mb-2">A</span>
+                                    <h3 className="card-title h5 fw-semibold">Tipo de Clase</h3>
+                                    <ul className="list-unstyled">
+                                        {factores.clases.map((clase, idx) => (
+                                            <li key={idx}>{clase.nombre} → {clase.porcentaje >= 0 ? '+' : ''}{clase.porcentaje}%</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {/* Temporada */}
+                        <div className="col">
+                            <div className="card h-100 border-0 shadow-sm">
+                                <div className="card-body">
+                                    <span className="badge bg-primary mb-2">B</span>
+                                    <h3 className="card-title h5 fw-semibold">Temporada del Viaje</h3>
+                                    <ul className="list-unstyled">
+                                        {factores.temporadas.map((temp, idx) => (
+                                            <li key={idx}>{temp.nombre} → {temp.porcentaje >= 0 ? '+' : ''}{temp.porcentaje}%</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {/* Edad */}
+                        <div className="col">
+                            <div className="card h-100 border-0 shadow-sm">
+                                <div className="card-body">
+                                    <span className="badge bg-primary mb-2">C</span>
+                                    <h3 className="card-title h5 fw-semibold">Edad del Pasajero</h3>
+                                    <ul className="list-unstyled">
+                                        {factores.edades.map((edad, idx) => (
+                                            <li key={idx}>{edad.rango} → {edad.porcentaje >= 0 ? '+' : ''}{edad.porcentaje}%</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {/* Equipaje Extra */}
+                        <div className="col">
+                            <div className="card h-100 border-0 shadow-sm">
+                                <div className="card-body">
+                                    <span className="badge bg-primary mb-2">D</span>
+                                    <h3 className="card-title h5 fw-semibold">Equipaje Extra</h3>
+                                    <p className="mb-0">${factores.equipajeExtra.costo} por cada maleta adicional</p>
+                                </div>
+                            </div>
+                        </div>
+                        {/* Tipo de Compra */}
+                        <div className="col">
+                            <div className="card h-100 border-0 shadow-sm">
+                                <div className="card-body">
+                                    <span className="badge bg-primary mb-2">E</span>
+                                    <h3 className="card-title h5 fw-semibold">Tipo de Compra</h3>
+                                    <ul className="list-unstyled">
+                                        {factores.tipoCompra.map((compra, idx) => (
+                                            <li key={idx}>{compra.nombre} → {compra.porcentaje >= 0 ? '+' : ''}{compra.porcentaje}%</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {/* Ocupación del Tren */}
+                        <div className="col">
+                            <div className="card h-100 border-0 shadow-sm">
+                                <div className="card-body">
+                                    <span className="badge bg-primary mb-2">F</span>
+                                    <h3 className="card-title h5 fw-semibold">Ocupación del Tren</h3>
+                                    <p className="mb-1">Simulación aleatoria entre {factores.ocupacion.min}% y {factores.ocupacion.max}%.</p>
+                                    <p className="mb-0">
+                                        Si ocupación &gt; {factores.ocupacion.umbralAltaDemanda}% → 
+                                        <span className="fw-medium"> +{factores.ocupacion.recargo}% adicional</span> (alta demanda)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* REPORTE GENERAL DEL DÍA */}
+                    <div className="bg-white p-4 rounded-3 shadow-sm mb-4">
+                        <h2 className="h4 text-primary fw-semibold border-bottom pb-2 mb-3">📋 Reporte General del Día</h2>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <ul className="list-group list-group-flush bg-transparent">
+                                    <li className="list-group-item bg-transparent d-flex justify-content-between align-items-start">
+                                        1. Total vendido del día
+                                        <span className="badge bg-secondary rounded-pill">acumulado</span>
+                                    </li>
+                                    <li className="list-group-item bg-transparent d-flex justify-content-between align-items-start">
+                                        2. Promedio de venta por pasajero
+                                        <span className="badge bg-secondary rounded-pill">media</span>
+                                    </li>
+                                    <li className="list-group-item bg-transparent d-flex justify-content-between align-items-start">
+                                        3. Clase más utilizada
+                                        <span className="badge bg-secondary rounded-pill">moda</span>
+                                    </li>
+                                    <li className="list-group-item bg-transparent d-flex justify-content-between align-items-start">
+                                        4. Temporada con mayor ingreso acumulado
+                                        <span className="badge bg-secondary rounded-pill">máx</span>
+                                    </li>
+                                    <li className="list-group-item bg-transparent d-flex justify-content-between align-items-start">
+                                        5. Cantidad de pasajeros con descuento por edad
+                                        <span className="badge bg-secondary rounded-pill">contador</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="col-md-6">
+                                <ul className="list-group list-group-flush bg-transparent">
+                                    <li className="list-group-item bg-transparent d-flex justify-content-between align-items-start">
+                                        6. Cantidad de pasajeros con recargo por alta demanda
+                                        <span className="badge bg-secondary rounded-pill">contador</span>
+                                    </li>
+                                    <li className="list-group-item bg-transparent d-flex justify-content-between align-items-start">
+                                        7. Pasajero que pagó el boleto más caro
+                                        <span className="badge bg-secondary rounded-pill">máx</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* VALIDACIONES OBLIGATORIAS + CLASIFICACIÓN */}
+                    <div className="row g-4 mb-4">
+                        <div className="col-lg-7">
+                            <div className="bg-white p-4 rounded-3 shadow-sm h-100">
+                                <h2 className="h4 text-primary fw-semibold border-bottom pb-2 mb-3">⚠️ Validaciones Obligatorias</h2>
+                                <ul className="list-unstyled row row-cols-1 row-cols-sm-2 mb-0">
+                                    <li className="col mb-2"><span className="badge bg-danger me-2">•</span> No permitir distancia menor a 20 km</li>
+                                    <li className="col mb-2"><span className="badge bg-danger me-2">•</span> No permitir edad negativa</li>
+                                    <li className="col mb-2"><span className="badge bg-danger me-2">•</span> No permitir nombre vacío</li>
+                                    <li className="col mb-2"><span className="badge bg-danger me-2">•</span> No permitir equipaje negativo</li>
+                                    <li className="col mb-2"><span className="badge bg-danger me-2">•</span> Máximo 120 pasajeros/día (mostrar 'Tren Completo')</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="col-lg-5">
+                            <div className="bg-white p-4 rounded-3 shadow-sm h-100">
+                                <h2 className="h4 text-primary fw-semibold border-bottom pb-2 mb-3">🏷️ Clasificación del Pasajero</h2>
+                                <div className="d-flex flex-column gap-2">
+                                    <div className="border-start border-4 border-success ps-3">&gt; $150 → <span className="fw-semibold">Premium</span></div>
+                                    <div className="border-start border-4 border-warning ps-3">$70 – $150 → <span className="fw-semibold">Regular</span></div>
+                                    <div className="border-start border-4 border-secondary ps-3">&lt; $70 → <span className="fw-semibold">Económico</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* NOTA DE DESARROLLO - Actualizada para React */}
+                    <div className="alert alert-info border-0 shadow-sm d-flex align-items-center" role="alert">
+                        <span className="me-2 fs-4">⚛️</span>
+                        <div>
+                            Desarrollado en <strong>React</strong> con componentes funcionales y JSX. 
+                            Almacenamiento en memoria mediante <strong>useState</strong> y manejo de estado local.
+                            No se utiliza base de datos.
+                        </div>
+                    </div>
+
+                    {/* Footer */}
+                    <footer className="text-muted text-center small mt-4">
+                        <p className="mb-0">Sistema de Tarifas Tren — Implementación en React con Bootstrap 5</p>
+                    </footer>
+                </main>
+            );
+        };
+
+        // Renderizar la aplicación en el root
+        ReactDOM.createRoot(document.getElementById("root")).render(<SistemaTarifasTren />);
+    </script>
+</body>
+</html>
