@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación Práctica #1 · Java · ITCA-FEPADE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #e9eef3;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+        .hoja {
+            max-width: 1280px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -10px rgba(0, 20, 30, 0.25);
+            overflow: hidden;
+            padding: 2rem 2.2rem;
+            border: 1px solid rgba(0,80,100,0.1);
+        }
+        /* encabezado institucional */
+        .institucion {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #0b3b4b;
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .itca {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #003f5c;
+            letter-spacing: -0.3px;
+        }
+        .itca span {
+            font-weight: 300;
+            font-size: 1rem;
+            color: #2a6d7c;
+            display: block;
+            line-height: 1.2;
+        }
+        .regional {
+            text-align: right;
+            font-weight: 600;
+            color: #1c5a6b;
+            border-left: 2px solid #aac7d4;
+            padding-left: 1.2rem;
+        }
+        .regional small {
+            display: block;
+            font-weight: 400;
+            font-size: 0.85rem;
+            color: #306070;
+        }
+        .modulo {
+            background: #e2f0f5;
+            padding: 0.8rem 1.2rem;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 0.8rem 0 0.2rem;
+            font-weight: 600;
+            color: #003f5c;
+            font-size: 1.1rem;
+        }
+        .encabezado-eval {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            background: #f4f9fc;
+            padding: 1rem 1.4rem;
+            border-radius: 24px;
+            margin: 0.8rem 0 1.8rem;
+            border: 1px dashed #2b7a8a;
+        }
+        .encabezado-eval h2 {
+            font-weight: 500;
+            color: #0c4a5e;
+            font-size: 1.6rem;
+        }
+        .encabezado-eval .eval {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: #0b3b4b;
+            color: white;
+            padding: 0.2rem 1.2rem;
+            border-radius: 60px;
+            letter-spacing: 1px;
+        }
+        .fila-alumno {
+            background: #ffffff;
+            border: 2px solid #bfdbe5;
+            border-radius: 40px;
+            padding: 1.2rem 2rem;
+            margin: 1.5rem 0 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.1rem;
+        }
+        .fila-alumno div {
+            margin: 0.3rem 0;
+        }
+        .linea-nota {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .linea-nota strong {
+            background: #cf6f4a;
+            color: white;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+        }
+        .indicacion {
+            background: #fdede4;
+            border-radius: 30px;
+            padding: 0.8rem 1.5rem;
+            margin: 1rem 0;
+            font-weight: 500;
+        }
+        .seccion-titulo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #004d66;
+            margin: 1.5rem 0 1rem 0;
+            border-left: 8px solid #f4b436;
+            padding-left: 1rem;
+        }
+        .categorias-box {
+            background: #fff2cf;
+            border-radius: 30px;
+            padding: 0.8rem 1.5rem;
+            margin: 1rem 0;
+            display: inline-block;
+        }
+        .tabla-evaluacion {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 6px 18px rgba(0, 40, 50, 0.1);
+            margin: 1.5rem 0 1rem;
+        }
+        .tabla-evaluacion th {
+            background: #003f5c;
+            color: white;
+            font-weight: 600;
+            padding: 0.8rem 0.5rem;
+            font-size: 1rem;
+        }
+        .tabla-evaluacion td {
+            border-bottom: 1px solid #cbdae3;
+            padding: 0.8rem 0.4rem;
+            vertical-align: top;
+        }
+        .tabla-evaluacion tr:last-child td {
+            border-bottom: none;
+        }
+        .td-num {
+            text-align: center;
+            font-weight: 600;
+            color: #1a5f73;
+            width: 60px;
+        }
+        .porcentaje {
+            text-align: center;
+            font-weight: 700;
+            color: #003f5c;
+            width: 80px;
+        }
+        .total-row {
+            background: #c1dde9;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .interfaz-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0;
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 28px;
+            border: 1px solid #cde3ec;
+        }
+        .formulario-web {
+            flex: 1;
+            min-width: 320px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 1px solid #ddd;
+        }
+        .form-header {
+            background: #2c3e50;
+            color: white;
+            padding: 0.8rem 1rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .form-body {
+            padding: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #007396;
+            box-shadow: 0 0 0 2px rgba(0,115,150,0.2);
+        }
+        .btn {
+            background: #007396;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-right: 0.5rem;
+        }
+        .btn-danger {
+            background: #dc3545;
+        }
+        .btn-warning {
+            background: #f4b436;
+            color: #2c3e50;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .tabla-preview {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .tabla-preview th, .tabla-preview td {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            text-align: left;
+            font-size: 0.85rem;
+        }
+        .tabla-preview th {
+            background: #e9ecef;
+        }
+        .imagen-preview {
+            width: 50px;
+            height: 50px;
+            background: #e2e8f0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #666;
+        }
+        .menu-bar {
+            background: #34495e;
+            padding: 0.5rem 1rem;
+            display: flex;
+            gap: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .menu-item {
+            color: white;
+            cursor: pointer;
+            padding: 0.3rem 0.5rem;
+            font-size: 0.9rem;
+        }
+        .menu-item:hover {
+            background: #007396;
+            border-radius: 4px;
+        }
+        .firma-carnet {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 1.5rem;
+            border-top: 2px solid #aac7d4;
+            margin-top: 2rem;
+            padding-top: 1.2rem;
+            font-size: 1.1rem;
+            color: #0e4d60;
+        }
+        .footnote {
+            text-align: right;
+            color: #397a8b;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        hr {
+            border: 1px solid #c6dee9;
+            margin: 1.5rem 0;
+        }
+        .badge-java {
+            background: #007396;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        @media print {
+            @page {
+                margin: 12mm;
+            }
+            body {
+                background: white;
+                padding: 0;
+            }
+            .hoja {
+                padding: 0.5rem;
+                box-shadow: none;
+            }
+            .formulario-web {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="hoja">
+
+    <!-- ENCABEZADO INSTITUCIONAL -->
+    <div class="institucion">
+        <div class="itca">
+            REQP
+            <span> </span>
+        </div>
+        <div class="regional">
+            REGIONAL SANTA ANA
+            <small>Facultad: Ingeniería y Arquitectura</small>
+        </div>
+    </div>
+
+    <!-- MÓDULO Y EVALUACIÓN -->
+    <div class="encabezado-eval">
+        <div>
+            <div class="modulo">☕ Módulo: Programación Orientada a Objetos</div>
+            <h2 style="margin-top: 0.5rem;">EVALUACIÓN PRÁCTICA #1 Segundo periodo (25%)</h2>
+        </div>
+        <div class="eval">Java + MySQL</div>
+    </div>
+
+    <!-- DATOS DEL DOCENTE Y ALUMNO -->
+    
+
+    <div class="fila-alumno">
+        <div><strong>Alumna(o):</strong> __________________________________________________</div>
+        <div><strong>Grupo:</strong> _____________</div>
+        <div><strong>Fecha:</strong> 25-03-2026</div>
+        <div class="linea-nota"><strong>Nota:</strong> _________</div>
+    </div>
+    <div style="display: flex; gap: 3rem; margin: 0.5rem 0 1rem 1rem; flex-wrap: wrap;">
+        <div><strong>Carnet:</strong> ____________________</div>
+        <div><strong>Firma:</strong> ___________________</div>
+    </div>
+
+    <!-- INDICACIONES -->
+    <div class="indicacion">
+        📌 <strong>Indicaciones:</strong> Crear una aplicación en <strong>Java (Swing/JavaFX)</strong> que permita dar mantenimiento a la siguiente base de datos. 
+        No puede utilizar material extra de ningún tipo. Favor trabajar individual para evitar pérdida de puntos.
+    </div>
+
+    <!-- DIAGRAMA DE BASE DE DATOS -->
+    <div class="seccion-titulo">🗄️ Estructura de Base de Datos (MySQL)</div>
+    <div class="interfaz-container" style="background: #eef3f7;">
+        <div style="flex:1; min-width: 250px;">
+            <div style="background:#2c3e50; color:white; padding:0.5rem 1rem; border-radius: 12px 12px 0 0;"><strong>📊 tabla: autores</strong></div>
+            <div style="background:white; padding:1rem; border-radius:0 0 12px 12px; border:1px solid #ddd;">
+                <code>id_autor (PK) INT AUTO_INCREMENT<br>
+                nombre_autor VARCHAR(100)<br>
+                nacionalidad VARCHAR(50)<br>
+                fecha_nacimiento DATE</code>
+            </div>
+        </div>
+        <div style="flex:1; min-width: 250px;">
+            <div style="background:#2c3e50; color:white; padding:0.5rem 1rem; border-radius: 12px 12px 0 0;"><strong>📚 tabla: libros</strong></div>
+            <div style="background:white; padding:1rem; border-radius:0 0 12px 12px; border:1px solid #ddd;">
+                <code>id_libro (PK) INT AUTO_INCREMENT<br>
+                titulo VARCHAR(150)<br>
+                id_autor (FK) INT<br>
+                categoria VARCHAR(50)<br>
+                anio_publicacion INT<br>
+                imagen_portada VARCHAR(255)</code>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTA DE CATEGORÍAS -->
+    <div class="categorias-box">
+        📖 <strong>NOTA:</strong> Categorías serán: <strong>novela</strong>, <strong>ciencia ficción</strong>, <strong>comedia</strong>
+    </div>
+<div class="categorias-box">
+        📖 <strong>NOTA:</strong> Relación: <strong>1 autor</strong> <strong>tiene </strong>, <strong>muchos libros</strong>
+    </div>
+    <!-- INTERFACES WEB DIBUJADAS -->
+    <div class="seccion-titulo">🖥️ Interfaces de Usuario (Java Swing)</div>
+    
+    <div class="interfaz-container">
+        <!-- Formulario de Inserción de Autores -->
+        <div class="formulario-web">
+            <div class="form-header">
+                <span>📝</span> Insertar Autor
+            </div>
+            <div class="form-body">
+                <div class="form-group">
+                    <label>Nombre del Autor</label>
+                    <input type="text" placeholder="Ej: Gabriel García Márquez" value="Gabriel García Márquez">
+                </div>
+                <div class="form-group">
+                    <label>Nacionalidad</label>
+                    <input type="text" placeholder="Ej: Colombiano" value="Colombiano">
+                </div>
+                <div class="form-group">
+                    <label>Fecha de Nacimiento</label>
+                    <input type="text" placeholder="YYYY-MM-DD" value="1927-03-06">
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn">💾 Guardar Autor</button>
+                    <button class="btn-secondary">🗑️ Limpiar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario de Inserción de Libros con ComboBox -->
+        <div class="formulario-web">
+            <div class="form-header">
+                <span>📖</span> Insertar Libro
+            </div>
+            <div class="form-body">
+                <div class="form-group">
+                    <label>Título</label>
+                    <input type="text" placeholder="Título del libro" value="Cien años de soledad">
+                </div>
+                <div class="form-group">
+                    <label>Autor (JComboBox)</label>
+                    <select>
+                        <option>Gabriel García Márquez</option>
+                        <option>Isabel Allende</option>
+                        <option>Mario Vargas Llosa</option>
+                        <option>Julio Cortázar</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Categoría (JComboBox)</label>
+                    <select>
+                        <option>Novela</option>
+                        <option>Ciencia Ficción</option>
+                        <option>Comedia</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Año de Publicación</label>
+                    <input type="text" placeholder="Ej: 1967" value="1967">
+                </div>
+                <div class="form-group">
+                    <label>Imagen Portada (JFileChooser)</label>
+                    <input type="text" placeholder="ruta/imagen.jpg" value="portada_cien_anos.jpg" style="background:#f5f5f5;">
+                    <button class="btn-secondary" style="margin-top:0.3rem;">📁 Examinar</button>
+                </div>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button class="btn">💾 Guardar Libro</button>
+                    <button class="btn-secondary">🗑️ Limpiar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Consulta de Libros con JTable y Imagen -->
+    <div class="interfaz-container">
+        <div class="formulario-web" style="flex: 2;">
+            <div class="form-header">
+                <span>📋</span> Consulta de Libros (JTable)
+            </div>
+            <div class="form-body">
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                    <input type="text" placeholder="Buscar por título..." style="flex:1; padding:0.5rem;">
+                    <button class="btn">🔍 Buscar</button>
+                    <button class="btn-secondary">🔄 Actualizar</button>
+                </div>
+                <table class="tabla-preview">
+                    <thead>
+                        <tr><th>ID</th><th>Título</th><th>Autor</th><th>Categoría</th><th>Año</th><th>Imagen</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>1</td><td>Cien años de soledad</td><td>Gabriel García Márquez</td><td>Novela</td><td>1967</td><td><div class="imagen-preview">📷 portada</div></td></tr>
+                        <tr><td>2</td><td>La ciudad y los perros</td><td>Mario Vargas Llosa</td><td>Novela</td><td>1963</td><td><div class="imagen-preview">📷 portada</div></td></tr>
+                        <tr><td>3</td><td>Crónica de una muerte anunciada</td><td>Gabriel García Márquez</td><td>Novela</td><td>1981</td><td><div class="imagen-preview">📷 portada</div></td></tr>
+                    </tbody>
+                </table>
+                <div style="margin-top: 0.8rem; text-align: right;">
+                    <button class="btn-warning">✏️ Editar</button>
+                    <button class="btn-danger">🗑️ Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menú Principal (JMenuBar) -->
+    <div class="interfaz-container">
+        <div class="formulario-web" style="flex: 1;">
+            <div class="form-header">
+                <span>🏠</span> Menú Principal (JMenuBar)
+            </div>
+            <div class="form-body">
+                <div class="menu-bar">
+                    <div class="menu-item">📁 Archivo</div>
+                    <div class="menu-item">👥 Autores</div>
+                    <div class="menu-item">📚 Libros</div>
+                    <div class="menu-item">📊 Consultas</div>
+                    <div class="menu-item">❌ Salir</div>
+                </div>
+                <div style="background: #e9ecef; padding: 2rem; text-align: center; border-radius: 12px; color: #6c757d;">
+                    <span style="font-size: 2rem;">📌</span><br>
+                    Panel Principal<br>
+                    <small>Seleccione una opción del menú</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla Resumen / Estadísticas -->
+        <div class="formulario-web" style="flex: 1;">
+            <div class="form-header">
+                <span>📊</span> Estadísticas y Reportes
+            </div>
+            <div class="form-body">
+                <div style="background: #f8f9fa; padding: 0.8rem; border-radius: 12px; margin-bottom: 1rem;">
+                    <strong>Total Autores:</strong> 12<br>
+                    <strong>Total Libros:</strong> 34<br>
+                    <strong>Libros por Categoría:</strong> Novela: 18 | Ciencia Ficción: 10 | Comedia: 6
+                </div>
+                <button class="btn">📈 Generar Reporte</button>
+                <button class="btn-secondary">🔄 Actualizar Estadísticas</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLA DE CRITERIOS A EVALUAR -->
+    <div class="seccion-titulo">✅ CRITERIOS A EVALUAR (Java + MySQL)</div>
+    <table class="tabla-evaluacion">
+        <thead>
+            <tr><th>N°</th><th>Criterio</th><th>%</th><th>Nota</th></tr>
+        </thead>
+        <tbody>
+            <tr><td class="td-num">1</td><td>Creación de la base de datos (script SQL)</td><td class="porcentaje">10%</td><td class="porcentaje">——</td></tr>
+            <tr><td class="td-num">2</td><td>Conexión JDBC a MySQL desde Java</td><td class="porcentaje">10%</td><td class="porcentaje">——</td></tr>
+            <tr><td class="td-num">3</td><td>Insertar autores (interfaz gráfica + inserción en BD)</td><td class="porcentaje">10%</td><td class="porcentaje">——</td></tr>
+            <tr><td class="td-num">4</td><td>Consultar autores (JTable + SELECT)</td><td class="porcentaje">10%</td><td class="porcentaje">——</td></tr>
+            <tr><td class="td-num">5</td><td>Insertar libros (10%) incluyendo JComboBox con autores (10%)</td><td class="porcentaje">20%</td><td class="porcentaje">——</td></tr>
+            <tr><td class="td-num">6</td><td>Consultar libros con imagen (10% consulta + 10% visualización de imagen)</td><td class="porcentaje">20%</td><td class="porcentaje">——</td></tr>
+            <tr><td class="td-num">7</td><td>Mantenimiento a la tabla libros (actualizar registro)</td><td class="porcentaje">10%</td><td class="porcentaje">——</td></tr>
+            <tr><td class="td-num">8</td><td>Eliminar registros de ambas tablas (con confirmación)</td><td class="porcentaje">10%</td><td class="porcentaje">——</td></tr>
+            <tr><td class="td-num">9</td><td>Elaboración de menú principal (JMenuBar o JPanel con botones)</td><td class="porcentaje">10%</td><td class="porcentaje">——</td></tr>
+            <tr class="total-row"><td colspan="2" style="text-align:right;">TOTAL</td><td class="porcentaje">100%</td><td class="porcentaje">——</td></tr>
+        </tbody>
+    </table>
+
+    <!-- EJEMPLO CONSULTA SQL -->
+    <div class="seccion-titulo">🔍 Ejemplo: Consulta de libros con JOIN</div>
+    <div style="background: #eef3f7; border-radius: 24px; padding: 1.2rem; margin: 1rem 0; font-family: monospace;">
+        <code>
+        SELECT l.id_libro, l.titulo, a.nombre_autor, l.categoria, l.anio_publicacion, l.imagen_portada<br>
+        FROM libros l<br>
+        INNER JOIN autores a ON l.id_autor = a.id_autor<br>
+        ORDER BY l.titulo;
+        </code>
+        <div style="margin-top: 0.8rem; background: white; padding: 0.5rem; border-radius: 12px;">
+            <small>📌 Resultado esperado: Listado de libros con nombre del autor, categoría y ruta de imagen para mostrar en JTable.</small>
+        </div>
+    </div>
+
+    <!-- NOTA ADICIONAL DE DESARROLLO -->
+    <div style="background: #cbe0e9; border-radius: 40px; padding: 0.8rem 2rem; margin: 1.5rem 0;">
+        ⚙️ <strong>Tecnologías:</strong> Java (Swing) · JDBC · MySQL · JTable · JFileChooser para imágenes · JMenuBar
+    </div>
+
+    <!-- FIRMAS Y CARNET -->
+    <div class="firma-carnet">
+        <div>Alumna(o): ______________________________________________________</div>
+        <div>Carnet: ____________________</div>
+        <div>Firma: ___________________</div>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 0.4rem;">
+        <span style="color:#0b5e74;">Fecha de entrega: 25-03-2026</span>
+        <span style="color:#0b5e74;">Evaluación Práctica #1 · Programación Orientada a Objetos · Java</span>
+    </div>
+
+    <hr>
+    <div class="footnote">
+        Desarrollo con Java Swing + JDBC + MySQL · No usar material extra
+    </div>
+</div>
+</body>
+</html>
