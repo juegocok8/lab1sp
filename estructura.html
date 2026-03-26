@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursividad en Java con JForm · </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #e9eef3;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+        }
+        .hoja {
+            max-width: 1280px;
+            width: 100%;
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px -10px rgba(0, 20, 30, 0.25);
+            overflow: hidden;
+            padding: 2rem 2.2rem;
+            border: 1px solid rgba(0,80,100,0.1);
+        }
+        /* encabezado */
+        .encabezado {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #0b3b4b;
+        }
+        .titulo-principal {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #003f5c;
+        }
+        .subtitulo {
+            font-size: 1.2rem;
+            color: #2a6d7c;
+            margin-top: 0.3rem;
+        }
+        .autor {
+            background: #e2f0f5;
+            display: inline-block;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+            margin-top: 0.8rem;
+            font-weight: 500;
+            color: #003f5c;
+        }
+        .seccion-titulo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #004d66;
+            margin: 1.8rem 0 1rem 0;
+            border-left: 8px solid #f4b436;
+            padding-left: 1rem;
+        }
+        .seccion-subtitulo {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1c5a6b;
+            margin: 1.2rem 0 0.8rem 0;
+            padding-left: 0.5rem;
+            border-left: 4px solid #61dafb;
+        }
+        .concepto-box {
+            background: #f0f9ff;
+            padding: 1.2rem;
+            border-radius: 20px;
+            margin: 1rem 0;
+            border-left: 5px solid #f4b436;
+        }
+        .codigo {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1rem;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        .codigo-java {
+            background: #2d2d2d;
+            color: #f8f8f2;
+        }
+        .interfaz-preview {
+            background: #f8fafc;
+            border: 1px solid #cde3ec;
+            border-radius: 20px;
+            padding: 1.2rem;
+            margin: 1rem 0;
+        }
+        .formulario-demo {
+            background: white;
+            border-radius: 16px;
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin: 0.5rem 0;
+        }
+        .form-group {
+            margin-bottom: 0.8rem;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+            color: #2c3e50;
+            font-size: 0.85rem;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+        .btn {
+            background: #007396;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            display: inline-block;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .grid-ejercicios {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 1.2rem;
+            margin: 1.5rem 0;
+        }
+        .card-ejercicio {
+            background: #f9fcff;
+            border-radius: 20px;
+            padding: 1.2rem;
+            border: 1px solid #cde3ec;
+            transition: 0.1s ease;
+        }
+        .card-ejercicio h4 {
+            color: #003f5c;
+            margin-bottom: 0.6rem;
+            font-size: 1.1rem;
+            border-bottom: 2px solid #f4b436;
+            display: inline-block;
+        }
+        .tree-preview {
+            font-family: monospace;
+            background: #2c3e50;
+            color: #e0e0e0;
+            padding: 1rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+        .resultado-preview {
+            background: #eef3f7;
+            padding: 0.8rem;
+            border-radius: 12px;
+            font-family: monospace;
+            margin-top: 0.8rem;
+        }
+        .tabla-evaluacion {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin: 1.5rem 0;
+        }
+        .tabla-evaluacion th {
+            background: #003f5c;
+            color: white;
+            font-weight: 600;
+            padding: 0.8rem 0.5rem;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+        .tabla-evaluacion td {
+            border-bottom: 1px solid #cbdae3;
+            padding: 0.7rem 0.5rem;
+            vertical-align: top;
+        }
+        .tabla-evaluacion tr:last-child td {
+            border-bottom: none;
+        }
+        .td-num {
+            text-align: center;
+            font-weight: 600;
+            color: #1a5f73;
+            width: 60px;
+        }
+        .porcentaje {
+            text-align: center;
+            font-weight: 700;
+            color: #003f5c;
+            width: 80px;
+        }
+        .total-row {
+            background: #c1dde9;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .badge-java {
+            background: #007396;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        .footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #c6dee9;
+            text-align: center;
+            color: #397a8b;
+            font-size: 0.85rem;
+        }
+        @media print {
+            body { background: white; }
+            .hoja { padding: 0.5rem; box-shadow: none; }
+            .card-ejercicio { break-inside: avoid; }
+            .codigo { break-inside: avoid; }
+            .tabla-evaluacion { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+<div class="hoja">
+
+    <!-- ENCABEZADO -->
+    <div class="encabezado">
+        <h1 class="titulo-principal">📁 Recursividad en Java con JForm</h1>
+        <p class="subtitulo">Listar directorios · Estructuras jerárquicas · Búsqueda recursiva</p>
+        <div class="autor">👨‍🏫 Ricardo Quintanilla | </div>
+    </div>
+
+    <!-- CONCEPTO DE RECURSIVIDAD -->
+    <div class="seccion-titulo">🔄 Concepto de Recursividad</div>
+    <div class="concepto-box">
+        <p><strong>La recursividad</strong> es una técnica de programación donde un <strong>método se llama a sí mismo</strong> para resolver un problema dividiéndolo en subproblemas más pequeños.</p>
+        <p style="margin-top: 0.8rem;">📌 <strong>Estructura básica:</strong> Caso base (detiene la recursión) + Caso recursivo (llamada a sí mismo).</p>
+    </div>
+
+    <!-- LISTAR DIRECTORIOS CON RECURSIVIDAD -->
+    <div class="seccion-titulo">📂 Ver archivos y carpetas especificando una ruta</div>
+    
+    <div class="interfaz-preview">
+        <!--
+        <div class="formulario-demo">
+            <div class="form-group">
+                <label>📁 Ruta del directorio</label>
+                <input type="text" placeholder="C:/Users/Documentos" value="C:/MisDocumentos">
+            </div>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                <button class="btn">📂 Seleccionar Carpeta (JFileChooser)</button>
+                <button class="btn">🔍 Listar Archivos</button>
+            </div>
+            <div class="resultado-preview">
+                <strong>📋 Resultado:</strong><br>
+                📁 Documents<br>
+                &nbsp;&nbsp;📄 proyecto.java<br>
+                &nbsp;&nbsp;📄 informe.pdf<br>
+                📁 Fotos<br>
+                &nbsp;&nbsp;🖼️ imagen1.jpg<br>
+                &nbsp;&nbsp;🖼️ imagen2.png<br>
+                📄 notas.txt
+            </div>
+        </div>-->
+        <div>
+            <img src="archivos.png" alt="">
+        </div>
+    </div>
+
+    <!-- CÓDIGO RECURSIVO PARA LISTAR -->
+    <div class="seccion-subtitulo">💻 Código recursivo para listar archivos</div>
+    <div class="codigo codigo-java">
+        <pre style="margin:0; font-family:'Courier New';">public void listarArchivos(File carpeta, String indent) {
+    if (carpeta.isDirectory()) {
+        txtArea.append(indent + "📁 " + carpeta.getName() + "\n");
+        File[] archivos = carpeta.listFiles();
+        if (archivos != null) {
+            for (File archivo : archivos) {
+                listarArchivos(archivo, indent + "  ");
+            }
+        }
+    } else {
+        txtArea.append(indent + "📄 " + carpeta.getName() + "\n");
+    }
+}</pre>
+    </div>
+
+    <!-- EVENTO DEL BOTÓN CON JFileChooser -->
+    <div class="seccion-subtitulo">🎯 Evento del botón con JFileChooser</div>
+    <div class="codigo codigo-java">
+        <pre style="margin:0;">private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+    JFileChooser chooser = new JFileChooser();
+    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+    int opcion = chooser.showOpenDialog(this);
+    if(opcion == JFileChooser.APPROVE_OPTION){
+        File carpeta = chooser.getSelectedFile();
+        txtRuta.setText(carpeta.getAbsolutePath());
+    }
+    txtArea.setText("");
+    String ruta = txtRuta.getText();
+    File directorio = new File(ruta);
+    listarArchivos(directorio, "");
+}</pre>
+    </div>
+
+    <!-- EJERCICIO: EMPLEADOS JERÁRQUICOS -->
+    <div class="seccion-titulo">🏢 Ejercicio: Organización de empleados en una empresa (Recursivo)</div>
+    <div class="concepto-box">
+        <p><strong>Problema:</strong> En una empresa existe una estructura jerárquica de empleados. Cada empleado puede tener varios subordinados.</p>
+        <p><strong>Objetivos:</strong></p>
+        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+            <li>Representar la estructura de empleados de la empresa.</li>
+            <li>Mostrar todos los empleados que dependen de un jefe, incluyendo subordinados de subordinados.</li>
+            <li>Utilizar recursividad para recorrer toda la estructura.</li>
+        </ul>
+    </div>
+
+    <div class="interfaz-preview">
+        <div class="tree-preview">
+            📋 <strong>Estructura jerárquica de empleados:</strong><br>
+            👨‍💼 Director<br>
+            &nbsp;&nbsp;👔 Gerente Ventas<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;👤 Vendedor 1<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;👤 Vendedor 2<br>
+            &nbsp;&nbsp;👨‍💻 Gerente Sistemas<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;👨‍💻 Programador 1<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;👨‍💻 Programador 2
+        </div>
+    </div>
+
+    <!-- CÓDIGO CLASE EMPLEADO -->
+    <div class="seccion-subtitulo">📦 Clase Empleado</div>
+    <div class="codigo codigo-java">
+        <pre style="margin:0;">public class Empleado {
+    private String nombre;
+    private List&lt;Empleado&gt; subordinados;
+    
+    public Empleado(String nombre) {
+        this.nombre = nombre;
+        this.subordinados = new ArrayList&lt;&gt;();
+    }
+    
+    public void agregarSubordinado(Empleado e) {
+        subordinados.add(e);
+    }
+    
+    public String getNombre() { return nombre; }
+    public List&lt;Empleado&gt; getSubordinados() { return subordinados; }
+}</pre>
+    </div>
+
+    <!-- MÉTODO RECURSIVO PARA MOSTRAR -->
+    <div class="seccion-subtitulo">🔄 Método recursivo para mostrar estructura</div>
+    <div class="codigo codigo-java">
+        <pre style="margin:0;">public static void mostrarEmpleados(Empleado empleado, String espacio) {
+    System.out.println(espacio + "👤 " + empleado.getNombre());
+    for (Empleado sub : empleado.getSubordinados()) {
+        mostrarEmpleados(sub, espacio + "  ");
+    }
+}</pre>
+    </div>
+
+    <!-- EJERCICIOS PROPUESTOS -->
+    <div class="seccion-titulo">📝 Ejercicios Propuestos</div>
+    
+    <div class="grid-ejercicios">
+        <div class="card-ejercicio">
+            <h4>📁 1. Contar archivos dentro de una carpeta</h4>
+            <p>Crear un programa que permita seleccionar una carpeta, recorra todas las subcarpetas y cuente cuántos archivos y carpetas hay en total.</p>
+            <div class="resultado-preview" style="margin-top:0.5rem;">
+                <strong>Ejemplo:</strong> Carpeta seleccionada: "Documentos" → Archivos: 124 | Carpetas: 32
+            </div>
+        </div>
+        <div class="card-ejercicio">
+            <h4>🔍 2. Buscar un archivo en todas las subcarpetas</h4>
+            <p>Permitir seleccionar una carpeta, escribir el nombre del archivo y buscarlo recursivamente en todas las subcarpetas, mostrando dónde se encontró.</p>
+            <div class="form-group" style="margin-top:0.5rem;">
+                <label>Nombre del archivo:</label>
+                <input type="text" placeholder="ejemplo.pdf" style="width:100%;">
+            </div>
+            <button class="btn" style="margin-top:0.3rem;">🔎 Buscar</button>
+        </div>
+        <div class="card-ejercicio">
+            <h4>🖼️ 3. Mostrar archivos de imagen</h4>
+            <p>Seleccionar una carpeta, recorrer todas las subcarpetas y mostrar solo archivos de imagen (extensiones: .jpg, .png).</p>
+            <div class="resultado-preview" style="margin-top:0.5rem;">
+                📷 imagen1.jpg<br>📷 foto_perfil.png<br>📷 paisaje.jpg
+            </div>
+        </div>
+        <div class="card-ejercicio">
+            <h4>🖼️✨ 4. Buscar imágenes con vista previa</h4>
+            <p>Desarrollar una aplicación que permita seleccionar una carpeta, buscar recursivamente archivos de imagen y mostrar una vista previa de cada imagen encontrada.</p>
+            <div class="resultado-preview" style="display:flex; gap:0.5rem; align-items:center;">
+                <div style="width:60px;height:60px;background:#ccc;border-radius:8px;">📷</div>
+                <div>imagen1.jpg</div>
+                <div style="width:60px;height:60px;background:#ccc;border-radius:8px;">📷</div>
+                <div>foto.png</div>
+            </div>
+        </div>
+        <div class="card-ejercicio">
+            <h4>🏢 5. Visualizar estructura de empleados (JFrame)</h4>
+            <p>Desarrollar una aplicación en Java con JFrame que permita mostrar la estructura jerárquica de empleados de la empresa utilizando recursividad.</p>
+            <div class="tree-preview" style="background:#eef3f7; color:#2c3e50; font-size:0.8rem;">
+                👨‍💼 Director<br>&nbsp;&nbsp;👔 Gerente Ventas<br>&nbsp;&nbsp;&nbsp;&nbsp;👤 Vendedor 1<br>&nbsp;&nbsp;&nbsp;&nbsp;👤 Vendedor 2
+            </div>
+        </div>
+        <div class="card-ejercicio">
+            <h4>📸 6. Agregar imagen a cada empleado</h4>
+            <p>Modificar el ejercicio anterior para permitir subir una imagen para cada empleado usando JFileChooser y mostrar la imagen escalada en un JLabel.</p>
+            <div class="form-group">
+                <label>Foto del empleado:</label>
+                <input type="text" placeholder="ruta de la imagen" style="width:70%; display:inline-block;">
+                <button class="btn-secondary" style="padding:0.4rem 0.6rem;">📁 Examinar</button>
+            </div>
+            <div style="background:#eee; padding:0.5rem; text-align:center; border-radius:8px;">🖼️ [Vista previa de la imagen]</div>
+        </div>
+    </div>
+
+    <!-- CÓDIGO PARA SUBIR IMAGEN -->
+    <div class="seccion-subtitulo">📸 Código para subir y ajustar imagen (JFileChooser)</div>
+    <div class="codigo codigo-java">
+        <pre style="margin:0;">// Subir imagen
+JFileChooser chooser = new JFileChooser();
+int opcion = chooser.showOpenDialog(this);
+if(opcion == JFileChooser.APPROVE_OPTION){
+    File archivo = chooser.getSelectedFile();
+    String ruta = archivo.getAbsolutePath();
+    txtFoto.setText(ruta);
+    
+    // Ajustar imagen al tamaño del JLabel
+    ImageIcon icon = new ImageIcon(ruta);
+    java.awt.Image img = icon.getImage().getScaledInstance(
+        lblFoto.getWidth(), lblFoto.getHeight(), 
+        java.awt.Image.SCALE_SMOOTH);
+    lblFoto.setIcon(new ImageIcon(img));
+}</pre>
+    </div>
+
+    <!-- TABLA DE CRITERIOS DE EVALUACIÓN -->
+    <div class="seccion-titulo">📋 Tabla de Criterios de Evaluación</div>
+    <table class="tabla-evaluacion">
+        <thead>
+            <tr><th>No.</th><th>Criterio de Evaluación / Funcionalidad a Probar</th><th>Peso</th><th>Ganado</th></tr>
+        </thead>
+        <tbody>
+            <tr><td class="td-num">1</td><td>Implementación de interfaz gráfica con JFrame / JForm</td><td class="porcentaje">5%</td><td class="porcentaje">—</td></tr>
+            <tr><td class="td-num">2</td><td>Selección de carpeta con JFileChooser (DIRECTORIES_ONLY)</td><td class="porcentaje">5%</td><td class="porcentaje">—</td></tr>
+            <tr><td class="td-num">3</td><td>Función recursiva para listar archivos y carpetas</td><td class="porcentaje">10%</td><td class="porcentaje">—</td></tr>
+            <tr><td class="td-num">4</td><td>Mostrar estructura jerárquica con indentación en JTextArea</td><td class="porcentaje">10%</td><td class="porcentaje">—</td></tr>
+            <tr><td class="td-num">5</td><td>Ejercicio 1: Contar archivos y carpetas recursivamente</td><td class="porcentaje">10%</td><td class="porcentaje">—</td></tr>
+            <tr><td class="td-num">6</td><td>Ejercicio 2: Buscar archivo por nombre en subcarpetas</td><td class="porcentaje">10%</td><td class="porcentaje">—</td></tr>
+            <tr><td class="td-num">7</td><td>Ejercicio 3: Filtrar archivos de imagen (.jpg, .png)</td><td class="porcentaje">10%</td><td class="porcentaje">—</td></tr>
+            <tr><td class="td-num">8</td><td>Ejercicio 4: Vista previa de imágenes encontradas</td><td class="porcentaje">10%</td><td class="porcentaje">—</td></tr>
+            <tr><td class="td-num">9</td><td>Ejercicio 5: Clase Empleado con estructura jerárquica</td><td class="porcentaje">10%</td><td class="porcentaje">—</td></tr>
+            <tr><td class="td-num">10</td><td>Ejercicio 5: Método recursivo para mostrar empleados</td><td class="porcentaje">10%</td><td class="porcentaje">—</td></tr>
+            <tr><td class="td-num">11</td><td>Ejercicio 6: Subir imagen por empleado con JFileChooser</td><td class="porcentaje">5%</td><td class="porcentaje">—</td></tr>
+            <tr><td class="td-num">12</td><td>Ejercicio 6: Escalar y mostrar imagen en JLabel</td><td class="porcentaje">5%</td><td class="porcentaje">—</td></tr>
+            <tr class="total-row"><td colspan="2" style="text-align:right;">TOTAL</td><td class="porcentaje">100%</td><td class="porcentaje">—</td></tr>
+        </tbody>
+    </table>
+
+    <!-- NOTA FINAL -->
+    <div style="background:#cbe0e9; border-radius: 40px; padding: 0.8rem 2rem; margin: 1.5rem 0;">
+        ⚙️ <strong>Tecnologías:</strong> Java Swing · JFrame · JFileChooser · Recursividad · JTree · ImageIcon
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>📌 Recursividad en Java con JForm | Ricardo Quintanilla |  Regional Santa Ana</p>
+        <p>Ejercicios prácticos: Listar directorios · Contar archivos · Búsqueda recursiva · Estructura de empleados</p>
+    </div>
+</div>
+</body>
+</html>
